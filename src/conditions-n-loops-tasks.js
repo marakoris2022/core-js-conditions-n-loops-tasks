@@ -538,8 +538,54 @@ function shuffleChar(str, iterations) {
  * @param {number} number The source number
  * @returns {number} The nearest larger number, or original number if none exists.
  */
-function getNearestBigger(/* number */) {
-  throw new Error('Not implemented');
+function getNearestBigger(number) {
+  let strNum = String(number);
+  let numIndex = -1;
+  let num = 0;
+  for (let i = strNum.length - 1; i >= 0; i -= 1) {
+    if (Number(strNum[i - 1]) < Number(strNum[i])) {
+      numIndex = i - 1;
+      break;
+    }
+  }
+  if (numIndex === -1) return number;
+  num = Number(strNum[numIndex]);
+  let memNum = 10;
+  let memIndex = 0;
+  for (let i = numIndex + 1; i < strNum.length; i += 1) {
+    if (
+      Number(strNum[i]) > Number(strNum[numIndex]) &&
+      Number(strNum[i]) <= memNum
+    ) {
+      memNum = Number(strNum[i]);
+      memIndex = i;
+    }
+  }
+  let strNumTemp = strNum;
+  strNum = [];
+  for (let i = 0; i < strNumTemp.length; i += 1) {
+    strNum.push(strNumTemp[i]);
+  }
+  strNum[memIndex] = String(num);
+  strNum[numIndex] = String(memNum);
+  const needSort = [];
+  for (let i = numIndex + 1; i < strNum.length; i += 1) {
+    needSort.push(strNum[i]);
+  }
+  needSort.sort(function (a, b) {
+    return a - b;
+  });
+  let needSortInx = 0;
+  for (let i = numIndex + 1; i < strNum.length; i += 1) {
+    strNum[i] = needSort[needSortInx];
+    needSortInx += 1;
+  }
+  strNumTemp = strNum;
+  strNum = '';
+  for (let i = 0; i < strNumTemp.length; i += 1) {
+    strNum += strNumTemp[i];
+  }
+  return Number(strNum);
 }
 
 module.exports = {
