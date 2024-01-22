@@ -572,7 +572,7 @@ function getNearestBigger(number) {
   for (let i = numIndex + 1; i < strNum.length; i += 1) {
     needSort.push(strNum[i]);
   }
-  needSort.sort(function (a, b) {
+  needSort.sort((a, b) => {
     return a - b;
   });
   let needSortInx = 0;
